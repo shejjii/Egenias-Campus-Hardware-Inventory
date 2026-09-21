@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block title %}Dashboard · Campus Hardware{% endblock %}{% block content %}
+<div class="page-heading"><div><h1>Dashboard</h1><p>Overview of your inventory system</p></div></div>
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-icon purple">▣</div><div><span>Total Stocks</span><strong>{{ total_stocks }}</strong></div></div>
+<div class="stat-card"><div class="stat-icon pink">♧</div><div><span>Borrowed Items</span><strong>{{ borrowed_items }}</strong></div></div>
+<div class="stat-card"><div class="stat-icon green">◷</div><div><span>Pending Borrow Requests</span><strong>{{ pending_borrows }}</strong></div></div>
+<div class="stat-card"><div class="stat-icon orange">↩</div><div><span>Pending Returns</span><strong>{{ pending_returns }}</strong></div></div>
+<div class="stat-card"><div class="stat-icon blue">♙</div><div><span>Password Requests</span><strong>{{ password_requests }}</strong></div></div>
+</div>
+<div class="dashboard-grid"><section class="panel"><div class="panel-head"><div><h2>Recent Activity</h2><p>Latest inventory transactions</p></div><a href="{{ url_for('inventory') }}">View all</a></div><div class="activity-list">{% for r in recent %}<div class="activity"><i class="dot d{{ loop.index % 4 }}"></i><div><strong>{{ r.item_name }}</strong><span>{{ r.status|replace('_',' ')|title }} · {{ r.username }}</span></div><time>{{ r.request_date }}</time></div>{% else %}<div class="empty">No recent activity yet.</div>{% endfor %}</div></section><aside class="promo"><div class="promo-orb"></div><div class="brand-mark">◇</div><h2>Together<br>for a Better<br>Campus</h2><p>Efficient inventory for a smarter tomorrow.</p><a href="{{ url_for('inventory') }}">Open inventory →</a></aside></div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Login · Campus Hardware{% endblock %}
+{% block auth_content %}
+<div class="auth-page"><div class="auth-card">
+  <div class="auth-visual"><div class="visual-orb orb-a"></div><div class="visual-orb orb-b"></div><div class="visual-brand"><div class="brand-mark big">◇</div><div><strong>Campus Hardware</strong><span>Inventory System</span></div></div><div class="visual-copy"><h1>National University<br>Computer Engineering<br>Laboratory System</h1><p>Track. Borrow. Return.</p></div></div>
+  <div class="auth-form"><div class="auth-heading"><h2>Welcome Back</h2><p>Please login to your account</p></div><form method="post"><label>Username</label><div class="input-wrap"><span>♙</span><input name="username" placeholder="Username" required></div><label>Password</label><div class="input-wrap"><span>⌑</span><input type="password" name="password" placeholder="Password" required></div><button class="gradient-btn" type="submit">Login</button></form><p class="auth-footer">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p><p class="auth-footer"><a href="{{ url_for('reset_request') }}">Forgot password?</a></p></div>
+</div></div>
+{% endblock %}

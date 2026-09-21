@@ -1,0 +1,469 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Approvals - Campus Hardware Inventory{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <h1>Admin Approvals</h1>
+        <p>
+            Review and manage equipment borrowing and return requests.
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+
+</div>
+
+
+<!-- PENDING BORROW REQUESTS -->
+<section class="content-section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Pending Borrow Requests</h2>
+
+            <p>
+                Approve or reject requests submitted by users.
+            </p>
+        </div>
+
+        <span class="count-badge">
+            {{ borrow_requests|length }}
+        </span>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+                    <th>Request ID</th>
+                    <th>User</th>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Available Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if borrow_requests %}
+
+                    {% for request in borrow_requests %}
+
+                    <tr>
+
+                        <td>
+                            {{ request.request_id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ request.username }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ request.item_name }}
+                        </td>
+
+                        <td>
+                            {{ request.category }}
+                        </td>
+
+                        <td>
+                            {{ request.quantity }}
+                        </td>
+
+                        <td>
+                            {{ request.available_stock }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-pending">
+                                {{ request.status }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <!-- APPROVE -->
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('approve_borrow', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Approve this borrow request? Stock will be decreased.');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-success">
+                                        Approve
+                                    </button>
+
+                                </form>
+
+
+                                <!-- REJECT -->
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('reject_borrow', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Reject this borrow request? Stock will remain unchanged.');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-danger">
+                                        Reject
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty-state">
+
+                            No pending borrow requests.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- PENDING RETURN REQUESTS -->
+<section class="content-section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Pending Return Requests</h2>
+
+            <p>
+                Review equipment return requests submitted by users.
+            </p>
+        </div>
+
+        <span class="count-badge">
+            {{ return_requests|length }}
+        </span>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+                    <th>Request ID</th>
+                    <th>User</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if return_requests %}
+
+                    {% for request in return_requests %}
+
+                    <tr>
+
+                        <td>
+                            {{ request.request_id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ request.username }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ request.item_name }}
+                        </td>
+
+                        <td>
+                            {{ request.quantity }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-pending">
+                                {{ request.status }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <!-- APPROVE RETURN -->
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('approve_return', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Approve this return? The equipment will be restocked.');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-success">
+                                        Approve Return
+                                    </button>
+
+                                </form>
+
+
+                                <!-- REJECT RETURN -->
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('reject_return', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Reject this return request? The borrowed item will remain borrowed.');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-danger">
+                                        Reject Return
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-state">
+
+                            No pending return requests.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- RESET REQUESTS -->
+<section class="content-section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Password Reset Requests</h2>
+
+            <p>
+                Review account password reset requests.
+            </p>
+        </div>
+
+        <span class="count-badge">
+            {{ reset_requests|length }}
+        </span>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+                    <th>Request ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if reset_requests %}
+
+                    {% for request in reset_requests %}
+
+                    <tr>
+
+                        <td>
+                            {{ request.request_id }}
+                        </td>
+
+                        <td>
+                            {{ request.username }}
+                        </td>
+
+                        <td>
+                            {{ request.email }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-pending">
+                                {{ request.status }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('approve_reset', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Approve this password reset request?');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-success">
+                                        Approve
+                                    </button>
+
+                                </form>
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('reject_reset', request_id=request.request_id) }}"
+                                    onsubmit="return confirm('Reject this password reset request?');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-danger">
+                                        Reject
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-state">
+
+                            No pending password reset requests.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN NOTICE -->
+<div class="request-notice">
+
+    <strong>Approval Rules</strong>
+
+    <ul>
+
+        <li>
+            Approving a borrow request decreases the available stock.
+        </li>
+
+        <li>
+            Rejecting a borrow request does not change the stock.
+        </li>
+
+        <li>
+            Approving a return request adds the returned quantity back
+            to the inventory.
+        </li>
+
+        <li>
+            Rejecting a return request leaves the item as borrowed.
+        </li>
+
+    </ul>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Borrow Audit</h1><div class="card"><table><tr><th>User</th><th>Item</th><th>Qty</th><th>Status</th><th>Due</th></tr>{% for r in requests %}<tr><td>{{r.username}}</td><td>{{r.item_name}}</td><td>{{r.quantity}}</td><td>{{r.status}}</td><td>{{r.due_date}}</td></tr>{% endfor %}</table></div>{% endblock %}

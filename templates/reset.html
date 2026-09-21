@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Password Request · Campus Hardware{% endblock %}
+
+{% macro reset_form() %}
+<section class="panel password-panel">
+  <div class="password-illustration">
+    <div class="lock">⌑</div>
+    <h2>Reset Your Password</h2>
+    <p>Enter your account details and choose a new password. Your request will be sent to an administrator for approval.</p>
+  </div>
+  <div class="form-panel">
+    <form method="post" action="{{ url_for('reset_request') }}">
+      <label>Username</label>
+      <input name="username" placeholder="Enter your username" autocomplete="username" required>
+
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter your email address" autocomplete="email" required>
+
+      <label>New Password</label>
+      <input type="password" name="new_password" placeholder="Enter your new password" autocomplete="new-password" minlength="8" required>
+      <small class="form-help">Use at least 8 characters.</small>
+
+      <button class="gradient-btn" type="submit">Submit Password Request</button>
+    </form>
+    {% if not session.get('user_id') %}
+      <p class="auth-footer"><a href="{{ url_for('login') }}">← Back to login</a></p>
+    {% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% block content %}
+<div class="page-heading">
+  <div><h1>Password</h1><p>Request a password change for administrator approval</p></div>
+</div>
+{{ reset_form() }}
+{% endblock %}
+
+{% block auth_content %}
+<div class="auth-page">
+  <div class="auth-card single-auth reset-auth-card">
+    <div class="auth-form">
+      <div class="auth-heading">
+        <div class="brand auth-brand"><div class="brand-mark">◇</div><div><strong>Campus Hardware</strong><span>Inventory System</span></div></div>
+        <h2>Forgot Password?</h2>
+        <p>Submit a new password for administrator approval.</p>
+      </div>
+      <form method="post" action="{{ url_for('reset_request') }}">
+        <label>Username</label>
+        <div class="input-wrap"><span>♙</span><input name="username" placeholder="Username" autocomplete="username" required></div>
+        <label>Email</label>
+        <div class="input-wrap"><span>✉</span><input type="email" name="email" placeholder="Email address" autocomplete="email" required></div>
+        <label>New Password</label>
+        <div class="input-wrap"><span>⌑</span><input type="password" name="new_password" placeholder="New password" autocomplete="new-password" minlength="8" required></div>
+        <small class="form-help">Your request will appear in the administrator's Approvals panel.</small>
+        <button class="gradient-btn" type="submit">Submit Request</button>
+      </form>
+      <p class="auth-footer"><a href="{{ url_for('login') }}">← Back to login</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
