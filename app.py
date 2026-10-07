@@ -10,6 +10,33 @@ DATABASE = os.path.join(BASE_DIR, 'hardware_inventory.db')
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'campus-hardware-inventory-2026')
 
+import smtplib
+import random
+from email.mime.text import MIMEText
+
+# --- BREVO SMTP CONFIGURATION ---
+SMTP_SERVER = "smtp-relay.brevo.com"
+SMTP_PORT = 2525
+# TODO: Replace these with your actual Brevo SMTP Login and Master Password
+SMTP_LOGIN = "your-email@example.com"       
+SMTP_PASSWORD = "your-brevo-master-password"  
+
+def send_otp_email(receiver_email, otp, intent):
+    """Sends a 6-digit OTP using Brevo SMTP."""
+    msg = MIMEText(f"Your {intent} One-Time Password (OTP) is: {otp}\n\nPlease enter this code to proceed. Do not share this code with anyone.")
+    msg['Subject'] = f"Laboratory System - {intent} OTP"
+    msg['From'] = "your-actual-email@gmail.com"  # Replace with your verified Brevo email
+    msg['To'] = receiver_email
+    
+    try:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_LOGIN, SMTP_PASSWORD)
+            server.send_message(msg)
+        return True
+    except Exception as e:
+        print(f"Email Error: {e}")
+        return False
 
 def db():
     conn = sqlite3.connect(DATABASE)
