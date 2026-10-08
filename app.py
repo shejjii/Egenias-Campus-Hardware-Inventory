@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('f3305c9d91376b12a4974942ef4231de75530ba3884f5472dab120ee5e514c0b', 'Egenias-Campus-Hardware-Inventory')
 
 SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp-relay.brevo.com')
-SMTP_PORT = int(os.environ.get('SMTP_PORT', '587'))
+SMTP_PORT = int(os.environ.get('SMTP_PORT', '2525'))
 SMTP_LOGIN = os.environ.get('SMTP_LOGIN', 'bc7d01001@smtp-brevo.com').strip()
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD', 'xsmtpsib-f1fbcecc17655971f97fb4f7220b6cae114a20e19e3bfa6b5cce3f750b869e75-Vo4Yzb1VdNbNZH9h')
 
