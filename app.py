@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SQLITE_DATABASE = os.path.join(BASE_DIR, 'hardware_inventory.db')
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('postgresql://postgres.wtdjcglxtyjbnqslmehj:192829Jc021%40@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres')
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('f3305c9d91376b12a4974942ef4231de75530ba3884f5472dab120ee5e514c0b', 'Egenias-Campus-Hardware-Inventory')
