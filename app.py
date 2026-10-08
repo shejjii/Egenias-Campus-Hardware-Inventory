@@ -17,16 +17,25 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SQLITE_DATABASE = os.path.join(BASE_DIR, 'hardware_inventory.db')
-DATABASE_URL = os.environ.get('postgresql://postgres.wtdjcglxtyjbnqslmehj:192829Jc021%40@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres')
+# =========================
+# ENVIRONMENT CONFIGURATION
+# =========================
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SQLITE_DATABASE = os.path.join(BASE_DIR, 'hardware_inventory.db')
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('f3305c9d91376b12a4974942ef4231de75530ba3884f5472dab120ee5e514c0b', 'Egenias-Campus-Hardware-Inventory')
+app.secret_key = os.environ.get('SECRET_KEY')
+
+if not app.secret_key:
+    raise RuntimeError('SECRET_KEY is not configured')
 
 SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp-relay.brevo.com')
-SMTP_PORT = int(os.environ.get('SMTP_PORT', '2525'))
-SMTP_LOGIN = os.environ.get('SMTP_LOGIN', 'bc7d01001@smtp-brevo.com').strip()
-SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD', 'xsmtpsib-f1fbcecc17655971f97fb4f7220b6cae114a20e19e3bfa6b5cce3f750b869e75-Vo4Yzb1VdNbNZH9h')
-
+SMTP_PORT = int(os.environ.get('SMTP_PORT', '587'))
+SMTP_LOGIN = os.environ.get('SMTP_LOGIN', '').strip()
+SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD', '')
 
 def send_otp_email(receiver_email, otp, intent):
     """Sends a 6-digit OTP using Brevo SMTP."""
@@ -59,7 +68,7 @@ class DBConnection:
         if self.is_postgres:
             if psycopg is None:
                 raise RuntimeError('psycopg is required when DATABASE_URL is configured. Run: pip install -r requirements.txt')
-            db_url = "postgresql://postgres:192829Jc021%40@db.wtdjcglxtyjbnqslmehj.supabase.co:5432/postgres"
+            db_url = DATABASE_URL
             if 'sslmode=' not in db_url.lower():
                 db_url += ('&' if '?' in db_url else '?') + 'sslmode=require'
             self.raw = psycopg.connect(db_url, row_factory=dict_row)
