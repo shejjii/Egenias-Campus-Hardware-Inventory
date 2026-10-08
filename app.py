@@ -59,7 +59,7 @@ class DBConnection:
         if self.is_postgres:
             if psycopg is None:
                 raise RuntimeError('psycopg is required when DATABASE_URL is configured. Run: pip install -r requirements.txt')
-            db_url = DATABASE_URL
+            db_url = "postgresql://postgres:192829Jc021%40@db.wtdjcglxtyjbnqslmehj.supabase.co:5432/postgres"
             if 'sslmode=' not in db_url.lower():
                 db_url += ('&' if '?' in db_url else '?') + 'sslmode=require'
             self.raw = psycopg.connect(db_url, row_factory=dict_row)
