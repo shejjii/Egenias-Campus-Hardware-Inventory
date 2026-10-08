@@ -20,7 +20,7 @@ SQLITE_DATABASE = os.path.join(BASE_DIR, 'hardware_inventory.db')
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'campus-hardware-inventory-2026')
+app.secret_key = os.environ.get('f3305c9d91376b12a4974942ef4231de75530ba3884f5472dab120ee5e514c0b', 'Egenias-Campus-Hardware-Inventory')
 
 SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp-relay.brevo.com')
 SMTP_PORT = int(os.environ.get('SMTP_PORT', '587'))
