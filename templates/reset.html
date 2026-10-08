@@ -18,9 +18,11 @@
 
       <label>New Password</label>
       <input type="password" name="new_password" placeholder="Enter your new password" autocomplete="new-password" minlength="8" required>
+      <label>Confirm New Password</label>
+      <input type="password" name="confirm_password" placeholder="Confirm your new password" autocomplete="new-password" minlength="8" required>
       <small class="form-help">Use at least 8 characters.</small>
 
-      <button class="gradient-btn" type="submit">Submit Password Request</button>
+      <button class="gradient-btn" type="submit">Send Verification Code <span>→</span></button>
     </form>
     {% if not session.get('user_id') %}
       <p class="auth-footer"><a href="{{ url_for('login') }}">← Back to login</a></p>
@@ -51,9 +53,11 @@
         <label>Email</label>
         <div class="input-wrap"><span>✉</span><input type="email" name="email" placeholder="Email address" autocomplete="email" required></div>
         <label>New Password</label>
-        <div class="input-wrap"><span>⌑</span><input type="password" name="new_password" placeholder="New password" autocomplete="new-password" minlength="8" required></div>
+        <div class="input-wrap"><span>⌑</span><input type="password" name="new_password" placeholder="New password" autocomplete="new-password" minlength="8" required>
+        <label>Confirm New Password</label>
+        <div class="input-wrap"><span>⌑</span><input type="password" name="confirm_password" placeholder="Confirm new password" autocomplete="new-password" minlength="8" required></div></div>
         <small class="form-help">Your request will appear in the administrator's Approvals panel.</small>
-        <button class="gradient-btn" type="submit">Submit Request</button>
+        <button class="gradient-btn" type="submit">Send Verification Code <span>→</span></button>
       </form>
       <p class="auth-footer"><a href="{{ url_for('login') }}">← Back to login</a></p>
     </div>
